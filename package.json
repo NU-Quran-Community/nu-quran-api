@@ -1,20 +1,24 @@
 {
-  "name": "udin-tech-task",
+  "name": "nu-quran-api",
   "version": "1.0.0",
-  "description": "Tech Task for Udin",
+  "description": "API for NU Quran Community",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "watch": "nodemon src/index.ts",
-    "build": "tsc"
+    "start": "NODE_EVN=prod node dist/index.js",
+    "watch": "NODE_EVN=dev nodemon src/index.ts",
+    "migrate": "NODE_EVN=dev ts-node src/db/migrate",
+    "build": "tsc",
+    "seed": "NODE_EVN=dev npx ts-node src/db/seed"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hossamhamzahm/udin-tech-task.git"
   },
   "keywords": [
-    "Udin",
-    "CRUD"
+    "NU",
+    "Quran",
+    "Community",
+    "API"
   ],
   "author": "Hossam Hamza",
   "license": "ISC",
@@ -23,7 +27,11 @@
   },
   "homepage": "https://github.com/hossamhamzahm/udin-tech-task#readme",
   "dependencies": {
-    "express": "^4.19.2"
+    "@types/dotenv": "^8.2.0",
+    "dot-env": "^0.0.1",
+    "express": "^4.19.2",
+    "mysql2": "^3.9.9",
+    "sequelize": "^6.37.3"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",

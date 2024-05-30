@@ -1,13 +1,14 @@
 import express from "express";
+import get_config from "./config/config";
+
+
 const app = express();
-const port = process.env.PORT || 3030
-
-
+const port = get_config("PORT") || 3030
 
 
 
 app.get("*", (req: express.Request, res: express.Response) => {
-    res.send("Server is up and running");
+    res.status(404).send({msg: "404, endpoint not found"});
 })
 
 
