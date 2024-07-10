@@ -4,11 +4,11 @@
   "description": "API for NU Quran Community",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_EVN=prod node dist/index.js",
-    "watch": "NODE_EVN=dev nodemon src/index.ts",
+    "start": "NODE_EVN=prod node dist/server.js",
+    "watch": "NODE_EVN=dev nodemon src/server.ts",
     "migrate": "NODE_EVN=dev ts-node src/db/migrate",
-    "build": "tsc",
-    "seed": "NODE_EVN=dev npx ts-node src/db/seed"
+    "build": "npx tsc",
+    "seed": "NODE_EVN=dev npx ts-node src/seed"
   },
   "repository": {
     "type": "git",
@@ -27,16 +27,24 @@
   },
   "homepage": "https://github.com/hossamhamzahm/udin-tech-task#readme",
   "dependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/dotenv": "^8.2.0",
+    "@types/express-session": "^1.18.0",
+    "bcrypt": "^5.1.1",
     "dot-env": "^0.0.1",
     "express": "^4.19.2",
-    "mysql2": "^3.9.9",
-    "sequelize": "^6.37.3"
+    "express-mysql-session": "^3.0.2",
+    "express-session": "^1.18.0",
+    "joi": "^17.13.3",
+    "mysql2": "^3.9.9"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "@types/express-mysql-session": "^3.0.6",
+    "@types/joi": "^17.2.3",
     "@types/typescript": "^2.0.0",
     "nodemon": "^3.1.2",
+    "sequelize-typescript": "^2.1.6",
     "ts-node": "^10.9.2"
   }
 }

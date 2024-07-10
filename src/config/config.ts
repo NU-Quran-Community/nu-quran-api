@@ -7,7 +7,7 @@ if(process.env.NODE_ENV != 'prod'){
 
 
 function get_config(prop: string){
-    return process.env[prop];
+    return process.env[prop] as string;
 }
 
 

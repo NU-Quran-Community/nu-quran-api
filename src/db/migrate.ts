@@ -1,16 +1,14 @@
 import connection from "./connection";
 import User from "./model/User"
-import WeeklyPoints from "./model/weekly_points"
 
 
 
-const migrate = async(force: boolean) => {
+const migrate = async (force: boolean) => {
     if (force) {
         await connection.query("SET FOREIGN_KEY_CHECKS = 0;");
     }
 
-    await User.sync({force})
-    await WeeklyPoints.sync({ force })
+    await User.sync({ force })
 
     if (force) {
         await connection.query("SET FOREIGN_KEY_CHECKS = 1;");
@@ -20,5 +18,5 @@ const migrate = async(force: boolean) => {
 
 
 
-if(module == require.main) migrate(true);
+if (module == require.main) migrate(true);
 export default migrate
