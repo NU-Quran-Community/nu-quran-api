@@ -7,9 +7,9 @@ import get_config from "../config/config";
 import ExpressError from "../utils/ExpressError";
 
 
-const index = async (req: express.Request, res: express.Response) => {
-    const exclude = ['hashed_password', 'pk', 'mentor_pk', 'referrer_pk', 'role'];
+const exclude = ['hashed_password', 'pk', 'mentor_pk', 'referrer_pk', 'role'];
 
+const index = async (req: express.Request, res: express.Response) => {
     const users = await User.findAndCountAll({
         attributes: { exclude },
         include: [
@@ -30,7 +30,7 @@ const index = async (req: express.Request, res: express.Response) => {
     else
         result.pagination.next_page = null
 
-    res.status(201).send(result);
+    res.status(200).send(result);
 }
 
 
@@ -68,6 +68,23 @@ const login = async (req: express.Request, res: express.Response) => {
 }
 
 
+const show = async (req: express.Request, res: express.Response) => {
+    const {id} = req.params
+    
+    const user = await User.findOne({
+        where: { id },
+        attributes: { exclude },
+        include: [
+            { model: User, as: 'referrer', attributes: { exclude } },
+            { model: User, as: 'mentor', attributes: { exclude } },
+        ],
+    });
+
+    if (!user) throw new ExpressError("Wrong user id", 404);
+    res.status(200).send(user)
+}
+
+
 const logout = async (req: express.Request, res: express.Response) => {
     if (req.session) {
         req.session.destroy(e => {
@@ -83,5 +100,6 @@ export default {
     create,
     index,
     login,
-    logout
+    logout,
+    show
 }

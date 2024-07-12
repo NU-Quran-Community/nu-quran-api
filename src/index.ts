@@ -1,8 +1,9 @@
 import express from "express";
 import UserRouter from "./router/User"
+import WeeklyPointsRouter from "./router/WeeklyPoints"
 import ExpressError from "./utils/ExpressError";
 import ConfiguredSession from "./config/ConfiguredSession";
-
+import cors from "cors"
 
 declare module 'express-session' {
     interface SessionData {
@@ -16,9 +17,14 @@ declare module 'express-session' {
 
 const app = express();
 app.use(express.json())
+app.use(cors({
+    origin: ['http://127.0.0.1:5173', 'http://localhost:5173'], // Your frontend origin
+    credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
+}))
 app.use(ConfiguredSession);
 
 
+app.use("/weekly-points", WeeklyPointsRouter);
 app.use("/users", UserRouter);
 
 
