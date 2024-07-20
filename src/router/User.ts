@@ -9,6 +9,7 @@ import Pagination from "../utils/Pagination"
 router.post("/", WrapAsync(Auth.IsAdmin), WrapAsync(UserHandler.create))
 router.get("/", WrapAsync(Pagination), WrapAsync(UserHandler.index))
 router.get("/:id", WrapAsync(Pagination), WrapAsync(UserHandler.show))
+router.get("/:id/weekly-points", WrapAsync(Pagination), WrapAsync(UserHandler.index_weekly_points))
 router.post("/login", WrapAsync(UserHandler.login))
 router.post("/logout", WrapAsync(UserHandler.logout))
 

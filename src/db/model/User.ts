@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import { AutoIncrement, BeforeCreate, BelongsTo, Column, DataType, ForeignKey, HasOne, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { AutoIncrement, BeforeCreate, BelongsTo, Column, DataType, Default, ForeignKey, HasOne, Model, PrimaryKey, Table } from "sequelize-typescript";
 import hash from "../../utils/hash";
 import connection from "../connection";
 import ExpressError from "../../utils/ExpressError";
@@ -29,9 +29,8 @@ class User extends Model {
     declare id: string;
 
     @Column({
-        type: DataType.UUID,
+        type: DataType.STRING,
         unique: true,
-        defaultValue: DataTypes.UUIDV4
     })
     declare email: string;
 

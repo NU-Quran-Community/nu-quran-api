@@ -1,8 +1,9 @@
 import get_config from "./config";
 import session from "express-session"
-const MySQLStore = require('express-mysql-session')(session);
-import mysql from "mysql2"
-const pool = mysql.createPool(get_config("DB_DEV_URL"));
+const pgStore = require('connect-pg-simple')(session);
+import pg from "pg"
+const pgPool = new pg.Pool({ connectionString: get_config("DB_DEV_URL") })
+// const pool = mysql.createPool(get_config("DB_DEV_URL"));
 
 
 const options = {
@@ -10,11 +11,13 @@ const options = {
     // How frequently expired sessions will be cleared; milliseconds:
     checkExpirationInterval: 900000,
     createDatabaseTable: true,
+    pool: pgPool,
+    createTableIfMissing: true
     // ssl: process.env.NODE_ENV === 'production',
 };
 
 
-const sessionStore = new MySQLStore(options, pool);
+const sessionStore = new pgStore(options);
 const ConfiguredSession = session({
     secret: get_config("COOKIE_SECRET"),
     resave: false,

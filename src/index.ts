@@ -1,6 +1,7 @@
 import express from "express";
 import UserRouter from "./router/User"
 import WeeklyPointsRouter from "./router/WeeklyPoints"
+import MonthlyPointsRouter from "./router/MonthlyPoints"
 import ExpressError from "./utils/ExpressError";
 import ConfiguredSession from "./config/ConfiguredSession";
 import cors from "cors"
@@ -24,6 +25,7 @@ app.use(cors({
 app.use(ConfiguredSession);
 
 
+app.use("/monthly-points", MonthlyPointsRouter);
 app.use("/weekly-points", WeeklyPointsRouter);
 app.use("/users", UserRouter);
 

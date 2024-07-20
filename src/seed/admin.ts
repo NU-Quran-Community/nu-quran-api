@@ -1,3 +1,4 @@
+import { Model } from "sequelize";
 import User from "../db/model/User";
 
 
@@ -10,13 +11,10 @@ const user = {
 
 
 
-const seed_admin = async (): Promise<void> => {
+const seed_admin = async (): Promise<Model> => {
     await User.sync();
     const u1 = new User(user)
-    await u1.save()
-
-    console.log("Seeding finished successfully.")
-    process.exit(0)
+    return await u1.save();
 }
 
 

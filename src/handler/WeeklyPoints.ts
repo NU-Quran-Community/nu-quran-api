@@ -5,22 +5,28 @@ import WeeklyPoints from "../db/model/WeeklyPoints";
 import Joi from "joi";
 import { Op } from "sequelize";
 import WeeklyPointsSchema from "../validator/WeeklyPoints";
-
-
+import ExpressError from "../utils/ExpressError";
+import {v4 as uuid} from "uuid"
 
 const index = async (req: express.Request, res: express.Response) => {
     const exclude = ['hashed_password', 'pk', 'mentor_pk', 'referrer_pk', 'role'];
-    const {date} = req.query
+    
+    enum DateOperator {"eq", "lte", "lt", "gte", "gt"};
+    const { date = undefined, date_operator = "eq" } = req.query as unknown as { date: undefined | string, date_operator: DateOperator }
+
+    // Validate date_operator
+    const isValidDateOperator = Object.values(DateOperator).includes(date_operator as DateOperator);
+    if (!isValidDateOperator) {
+        throw new ExpressError(`Invalid date_operator value: ${date_operator}`, 400);
+    }
 
     let where : {[key: string]: any} = {};
-    if(date) where = {
-        [Op.and]: [
-            connection.where(
-                connection.fn('DATE', connection.col('date')),
-                connection.fn('DATE', date)
-            )
-        ]
-    };
+    if(date) where = { where: connection.where(
+            connection.fn('DATE', connection.col('date')),
+            // @ts-ignore
+            Op[date_operator],
+            connection.fn('DATE', date)
+        )}
 
     const weekly_points = await WeeklyPoints.findAndCountAll({
         where,
@@ -51,8 +57,8 @@ const create = async (req: express.Request, res: express.Response) => {
 
     const query = `
         INSERT INTO ${WeeklyPoints.tableName} (id, user_pk, date, points, state)
-        SELECT UUID(), pk, DATE('${req.body.date}'), 0, 'absent'
-        FROM ${User.tableName} ;
+        SELECT '${uuid()}', pk, DATE('${req.body.date}'), 0, 'absent'
+        FROM "${User.tableName}";
     `;
 
     const weekly_points = await connection.query(query);

@@ -5,15 +5,15 @@ import WeeklyPoints from "./model/WeeklyPoints"
 
 
 const migrate = async (force: boolean) => {
-    if (force) {
-        await connection.query("SET FOREIGN_KEY_CHECKS = 0;");
-    }
+    // if (force) {
+    //     await connection.query("SET FOREIGN_KEY_CHECKS = 0;");
+    // }
 
     await User.sync({ force })
     await WeeklyPoints.sync({ force })
 
     if (force) {
-        await connection.query("SET FOREIGN_KEY_CHECKS = 1;");
+        // await connection.query("SET FOREIGN_KEY_CHECKS = 1;");
         process.exit(0)
     }
 }
